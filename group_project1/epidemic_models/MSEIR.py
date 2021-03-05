@@ -5,21 +5,7 @@ from scipy.integrate import odeint
 
 
 def sir(a, b, N):
-    return lambda t, y : np.array([-a/N*y[1]*y[0], a/N*y[1]*y[0]-b*y[1], b*y[1]])
-
-
-def seir(beta, e, gamma):
-    """
-    :param y0: list contains initial values of S, I, E, R
-    :return: seir function
-    """
-    S = y[0]
-    I = y[1]
-    E = y[2]
-    R = y[3]
-
-    return lambda t, y: np.array([-1*beta*y[0]*y[1], beta*y[0]*y[1]-e*y[2], e*y[2]-gamma*y[1],
-                                   gamma*y[1]])
+    return lambda t, y: np.array([-a/N*y[1]*y[0], a/N*y[1]*y[0]-b*y[1], b*y[1]])
 
 
 def seir(y, t, alpha, beta, gamma):
@@ -53,4 +39,15 @@ def seirSim(y0, beta, alpha, gamma, t, showPlot=True):
 
     return seirSoln
 
+
+def plot_trajectory(t, r0, s, i, e=None):
+    plt.plot(s, i, lw=3, label='s, i progression')
+    plt.plot([1/r0, 1/r0], [0, 1], '-.', lw=3, label='di/dt = 0')
+    plt.plot(s[0], i[0], '.', ms=15, label='Initial Condition')
+    plt.plot(s[-1], i[-1], '.', ms=15, label='Final Condition')
+    plt.title('Disease State Trajectory')
+    plt.xlabel('Susceptible')
+    plt.ylabel('Infectious')
+    plt.legend()
+    plt.show()
 
